@@ -1,0 +1,56 @@
+shopping_list = {"banana": 3, "orange": 40, "apple": 5, "mushroom": 3}
+
+stock = {
+  "banana": 4,
+  "apple": 1,
+  "orange": 32,
+  "pear": 15
+}
+    
+prices = {
+  "banana": 4,
+  "apple": 2,
+  "orange": 1,
+  "pear": 3
+}
+
+# Write your code below!
+
+print "Grocery List:"
+print shopping_list
+print
+print "Receipt:"
+
+def compute_bill(food):
+  
+  total = 0
+  for each in food:
+    if each in stock and stock[each] > 0 and stock[each] >= food[each]:
+      total = total + food[each] * prices[each]
+      stock[each] -= food[each]
+      if food[each] > 1:
+        print str(food[each]) + " " + str(each) + "s"
+      else:
+        print str(food[each]) + " " + str(each)
+          
+    elif each in stock and stock[each] > 0 and stock[each] < food[each]:
+      total = total + stock[each] * prices[each]
+      dif = food[each] - stock[each]
+      if stock[each] > 1 and dif > 1:
+        print str(stock[each]) + " " + str(each) + "s (" + str(dif) + " " + str(each) + "s back-ordered)"  
+      elif stock[each] == 1 and dif > 1:
+        print str(stock[each]) + " " + str(each) + " (" + str(dif) + " " + str(each) + "s back-ordered)"  
+      else:
+        print str(stock[each]) + " " + str(each) + " (" + str(dif) + " " + str(each) + " back-ordered)"
+      stock[each] = 0
+      
+    elif each in stock: print "%ss are out of stock" % each
+      
+    else: print "Sorry, we don't sell %ss" % each
+  return total
+
+
+print "Your bill is $%s" % compute_bill(shopping_list)  
+print
+print "Remaining inventory:"
+print stock
